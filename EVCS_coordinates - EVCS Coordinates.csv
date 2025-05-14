@@ -1,0 +1,43 @@
+Station_name,Dzongkhag,lat,long,Facility,Status
+Chamkhar town,Bumthang,27.54915,90.755225,1 AC,Working
+Old Truck Parking,Bumthang,27.54824167,90.75416944,"1 AC, 1  DC",Working
+"BCTA, Pling",Chukha,26.86484167,89.38383056,1 AC,Working
+Gedu,Chukha,26.91083611,89.52969722,1 DC,Working
+"Pemaling, Pling",Chukha,26.85753611,89.38691111,1 AC,Working
+"Phuentsholing, MLCP",Chukha,26.86330556,89.38294167,"1 AC, 1 DC",Working
+"Phuentsholing,Veg market",Chukha,26.8648,89.37897222,"1 AC, 1 DC",Working
+Wangkha,Chukha,27.04713611,89.57035,1 DC,Working
+Dagapela,Dagana,26.94271667,89.961525,"1 AC, 1 DC",Working
+Gasa Town,Gasa,27.90688889,89.73146389,"1 AC, 1 DC",Working
+"Near Haa Dzong, town",Haa,27.38498333,89.28433333,1 DC,Working
+Lhuentse near Dzong,Lhuentse,27.66311111,91.18809444,"1 AC, 1 DC",Working
+GCIT,Mongar,27.22674444,91.20641944,1 DC,Working
+Mongar,Mongar,27.27339722,91.24449444,"2 AC, 1 DC",Working
+Chuzom,Paro,27.31331389,89.54764444,1 DC,Working
+Old EVCS taxi parking,Paro,27.4277,89.41563889,"2 AC, 2 DC",Working
+Paro International airport,Paro,27.40343056,89.42161111,1 DC,Working
+Tachog Lakhang,Paro,27.33024722,89.49965556,2 DC,Working
+Denchi,Pemagatshel,27.01636944,91.39755,"1 AC, 1 DC",Working
+Khuruthang,Punakha,27.55073056,89.87138611,"1 AC, 1 DC",Working
+Sj town,Samdrup Jongkhar,26.79564167,91.50440556,"1 AC, 1 DC",Working
+Samtse EVCS,Samtse,26.90026944,89.09719722,"1 AC, 1 DC",Working
+Gelephu,Sarpang,26.87221944,90.48320556,"1 AC, 1 DC",Working
+Babesa,Thimphu,27.440225,89.66142778,2 DC,Working
+Bhutan Post Corporation Limited,Thimphu,27.47350833,89.63908056,1 DC,Working
+Changlimithang,Thimphu,27.46909167,89.64217222,"2 AC, 2 DC",Working
+Changyul Park,Thimphu,27.45919167,89.64736389,2 DC,Working
+Dangrena,Thimphu,27.53169444,89.63777778,"1 AC, 1 DC",Working
+Jigme Namgyal School,Thimphu,27.4769,89.62421111,"1 AC, 1 DC",Working
+Kaja Throm,Thimphu,27.47693333,89.640475,"1 AC, 1 DC",Working
+Lungtenzampa,Thimphu,27.46719167,89.64289722,1 DC,Working
+Memorial Chorten,Thimphu,27.46532222,89.63789722,"1 AC, 1 DC",Working
+RTC junction,Thimphu,27.42490556,89.64448333,1 DC,Working
+"BCTA, Trashigang",Trashigang,27.33226111,91.55162222,"1 AC, 1 DC",Working
+Trashiyangtse,Trashiyangtse,27.60933056,91.49762778,"1 AC, 1 DC",Working
+Mani dungkhor,Trongsa,27.50394722,90.50802778,"1 AC, 1 DC",Working
+"Tsirang, Taxi parking",Tsirang,27.00759444,90.12466667,"1 AC, 1 DC",Working
+Bajo Town,Wangduephodrang,27.49355833,89.90157778,"1 AC, 1 DC",Working
+"Basochu, Wangdue",Wangduephodrang,27.34163056,89.91654167,"1 AC, 1 DC",Working
+Zhemgang,Zhemgang,27.21903889,90.66031667,"1 AC, 1 DC",Working
+Sephu,Wangduephodrang,27.517656,90.275856,1 DC,Under construction
+Wamrong,Tashigang,27.139306,91.573028,1 DC,Under construction
