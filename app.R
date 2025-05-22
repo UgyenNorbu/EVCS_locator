@@ -5,23 +5,25 @@ library(dplyr)
 
 ui <- fluidPage(
     theme = bslib::bs_theme(bootswatch = "cerulean"),
+    br(),
     titlePanel("EV Charging Station Locator"),
+    br(),
     
     # Add selector for Dzongkhag
-    
     sidebarLayout(
         sidebarPanel(
-            selectInput("dzongkhag", 
-                        "Select Dzongkhag:", 
+            selectInput("dzongkhag",
+                        "Select Dzongkhag:",
                         choices = c("All", ""),  # Will be populated from data
                         selected = "All",
-                        width = "250px"), 
+                        width = "250px"),
+            br(),
             tabPanel("About",
                      h5("About this App"),
                      p("This application was created to provide reliable locations of public charging stations in the Bhutan.")
             )
         ),
-        
+
         mainPanel(
             leafletOutput("map", height = 600)
         )
