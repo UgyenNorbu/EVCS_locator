@@ -59,7 +59,7 @@ custom_css <- "
   /* ── Layout ── */
   .app-body {
     display: flex;
-    height: calc(100vh - 55px);
+    height: calc(100vh - 58px);
     overflow: hidden;
   }
 
@@ -71,8 +71,8 @@ custom_css <- "
     border-right: 1px solid #DDE4E4;
     display: flex;
     flex-direction: column;
-    padding: 20px 16px;
-    gap: 20px;
+    padding: 20px 16px 100px 16px;
+    gap: 12px;
     overflow-y: auto;
   }
 
@@ -238,13 +238,125 @@ custom_css <- "
   /* Override bslib defaults */
   .container-fluid { padding: 0 !important; }
   .shiny-html-output { margin: 0; }
+  
+  /* ── Agency logo fixed bottom-left ── */
+  .agency-logo-fixed {
+    position: fixed;
+    bottom: 16px;
+    left: 16px;
+    z-index: 1000;
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(4px);
+    border-radius: 8px;
+    padding: 6px 10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.10);
+  }
+  .agency-logo-fixed img {
+    max-width: 130px;
+    max-height: 55px;
+    object-fit: contain;
+    display: block;
+  }
+  
+    /* ── Desktop defaults for mobile-only elements ── */
+  .hamburger-btn     { display: none; }
+  .mobile-topbar     { display: contents; }
+  .mobile-collapsible { display: contents; }
+  
+  /* Remove gap contribution from hidden hamburger on desktop */
+  .hamburger-btn { display: none !important; }
+  
+  /* ─────────────────────────────────────────
+     MOBILE  (screens ≤ 640 px wide)
+  ───────────────────────────────────────── */
+  @media (max-width: 640px) {
+
+    /* Header: smaller text, hide subtitle */
+    .app-header {
+      padding: 10px 14px;
+      gap: 8px;
+    }
+    .app-header h1     { font-size: 14px; }
+    .app-header .header-sub { display: none; }
+
+    /* Stack sidebar ABOVE map */
+    .app-body {
+      flex-direction: column;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    /* Sidebar: only shows dropdown by default; collapsed items hidden */
+    .app-sidebar {
+      width: 100%;
+      min-width: unset;
+      flex-direction: column;
+      padding: 10px 14px;
+      gap: 8px;
+      border-right: none;
+      border-bottom: 1px solid #DDE4E4;
+      overflow: visible;
+      flex-shrink: 0;
+    }
+
+    /* Hamburger button — visible only on mobile */
+    .hamburger-btn {
+      display: flex !important;
+      align-items: center;
+      gap: 6px;
+      background: none;
+      border: 1px solid #DDE4E4;
+      border-radius: 6px;
+      padding: 5px 10px;
+      font-size: 12px;
+      color: #6B7C7C;
+      cursor: pointer;
+      margin-left: auto;
+    }
+
+    /* Mobile top bar: dropdown + hamburger side by side */
+    .mobile-topbar {
+      display: flex !important;
+      align-items: center;
+      gap: 10px;
+      width: 100%;
+    }
+    .mobile-topbar .selectize-control { flex: 1; }
+
+    /* Collapsible panel: hidden by default */
+    .mobile-collapsible {
+      display: none;
+      flex-direction: column;
+      gap: 10px;
+      padding-top: 8px;
+      border-top: 1px solid #DDE4E4;
+    }
+    .mobile-collapsible.open { display: flex !important; }
+
+    /* Map fills all remaining space */
+    .app-main {
+      flex: 1;
+      min-height: 0;
+    }
+    #map {
+      width: 100% !important;
+      height: 100% !important;
+    }
+
+    /* Logo smaller */
+    .agency-logo-fixed { bottom: 10px; left: 10px; }
+    .agency-logo-fixed img { max-width: 90px; max-height: 40px; }
+    
+  }
 "
 
 # ── UI ────────────────────────────────────────────────────────────────────────
 ui <- fluidPage(
     tags$head(
-        tags$style(HTML(custom_css))
+      tags$meta(name = "viewport", content = "width=device-width, initial-scale=1.0"),
+      tags$style(HTML(custom_css))
     ),
+  
     # Header
     tags$div(class = "app-header",
              tags$span(class = "header-icon", "\U26A1"),
@@ -255,36 +367,56 @@ ui <- fluidPage(
     tags$div(class = "app-body",
              # Sidebar
              tags$div(class = "app-sidebar",
-                      # Dzongkhag selector
-                      tags$div(
-                          tags$div(class = "sidebar-section-label", "Filter by location"),
-                          selectInput("dzongkhag", NULL,
-                                      choices  = c("All Dzongkhags" = "All"),
-                                      selected = "All",
-                                      width    = "100%")
+                      # ── Mobile top bar: dropdown + hamburger ──
+                      tags$div(class = "mobile-topbar",
+                               tags$div(style = "flex:1",
+                                        tags$div(class = "sidebar-section-label", "Filter by location"),
+                                        selectInput("dzongkhag", NULL,
+                                                    choices  = c("All Dzongkhags" = "All"),
+                                                    selected = "All",
+                                                    width    = "100%")
+                               ),
+                               tags$button(
+                                 id    = "hamburger",
+                                 class = "hamburger-btn",
+                                 onclick = "
+                                     var panel = document.getElementById('mobile-panel');
+                                     panel.classList.toggle('open');
+                                     this.textContent = panel.classList.contains('open') ? '✕ Close' : '☰ More';
+                                   ",
+                                 "\u2630 More"
+                               )
                       ),
-                      # Stat card
-                      tags$div(class = "stat-card",
-                               tags$div(class = "stat-label", "Charging stations"),
-                               uiOutput("station_count"),
-                               tags$div(class = "stat-sublabel", uiOutput("station_location_label"))
-                      ),
-                      # # Status breakdown
-                      # tags$div(
-                      #   tags$div(class = "sidebar-section-label", "Status breakdown"),
-                      #   uiOutput("status_breakdown")
-                      # ),
-                      tags$div(class = "sidebar-divider"),
-                      # About
-                      tags$div(class = "about-block",
-                               tags$strong("About this map"), tags$br(),
-                               "Live locations of public EV charging stations across Bhutan. Use the dropdown to filter by Dzongkhag."
+                      
+                      # ── Collapsible panel (stat + about) ──
+                      tags$div(id = "mobile-panel", class = "mobile-collapsible",
+                               
+                               # Stat card
+                               tags$div(class = "stat-card",
+                                        tags$div(class = "stat-label", "Charging stations"),
+                                        uiOutput("station_count"),
+                                        tags$div(class = "stat-sublabel", uiOutput("station_location_label"))
+                               ),
+                               
+                               tags$div(class = "sidebar-divider"),
+                               
+                               # About
+                               tags$div(class = "about-block",
+                                        tags$strong("About this map"), tags$br(),
+                                        "Live locations of public EV charging stations across Bhutan. Use the dropdown to filter by Dzongkhag."
+                               )
                       )
              ),
              # Map
              tags$div(class = "app-main",
                       leafletOutput("map", height = "100%", width = "100%")
              )
+    ),
+    
+    # Logo
+    tags$div(class = "agency-logo-fixed",
+             tags$img(src = "DoST_logo.png",
+                      alt = "Agency Logo")
     )
 )
 
@@ -325,38 +457,6 @@ server <- function(input, output, session) {
         }
     })
     
-    # Status breakdown
-    # output$status_breakdown <- renderUI({
-    #   df <- filtered()
-    #   working      <- sum(df$Status == "Working",              na.rm = TRUE)
-    #   construction <- sum(df$Status == "Under construction",   na.rm = TRUE)
-    #   other        <- nrow(df) - working - construction
-    #   
-    #   items <- list(
-    #     tags$div(class = "status-item",
-    #              tags$div(class = "status-dot working"),
-    #              tags$span("Operational"),
-    #              tags$span(class = "status-count", working)
-    #     ),
-    #     tags$div(class = "status-item",
-    #              tags$div(class = "status-dot construction"),
-    #              tags$span("Under construction"),
-    #              tags$span(class = "status-count", construction)
-    #     )
-    #   )
-    #   if (other > 0) {
-    #     items <- c(items, list(
-    #       tags$div(class = "status-item",
-    #                tags$div(class = "status-dot other"),
-    #                tags$span("Other / unknown"),
-    #                tags$span(class = "status-count", other)
-    #       )
-    #     ))
-    #   }
-    #   tags$div(class = "status-row", items)
-    # })
-    # 
-    # Popup builder (vectorised — called with ~ inside leaflet)
     make_popup <- function(name, facility, status) {
         status_class <- ifelse(status == "Working", "popup-status-working", "popup-status-construction")
         paste0(
